@@ -40,6 +40,7 @@ public class FloatingCapsule : MonoBehaviour
     public bool isGrounded;
     bool falling = true;
     public bool jumping;
+    bool jumped;
 
     private Rigidbody rb;
 
@@ -99,19 +100,18 @@ public class FloatingCapsule : MonoBehaviour
 
     public void Raycast()
     {
+        if (jumped & !falling) return;
+
         if (Physics.Raycast(rb.worldCenterOfMass, 
             gravityDirection, out RaycastHit hit, p.rideHeight))
         {
+            jumped = false;
             Debug.DrawLine(rb.worldCenterOfMass, hit.point, Color.green);
-            if (falling)
-            {
-                //don't add spring force when falling to avoid stickiness when jumping
                 springForce =
                 ((p.rideHeight - hit.distance) * p.springStrength) -
                 (Vector3.Dot(-gravityDirection, vel) * p.springDamper);
                 rb.AddForce(-gravityDirection * springForce);
                 isGrounded = true;
-            }
             hitNormal = hit.normal;
         }
         else
@@ -157,6 +157,7 @@ public class FloatingCapsule : MonoBehaviour
         if (isGrounded)
         {
             rb.AddForce(p.jumpForce * -gravityDirection, ForceMode.Impulse);
+            jumped = true;
         }
         vel = Mathf.Clamp(p.verticalSpeed - vel, 0, p.maxVerticalAcceleration);
         rb.AddForce(vel * -gravityDirection, ForceMode.VelocityChange);
@@ -171,7 +172,8 @@ public class FloatingCapsule : MonoBehaviour
         }
         else
         {
-            float velDown = Vector3.Dot(gravityDirection, vel.normalized);
+            float velDown = Vector3.Dot(gravityDirection, vel.normalized-gravityDirection * 0.01f);
+            falling = velDown > 0;
             velDown = Mathf.Clamp(velDown, 0, 1f);
             velDown = Mathf.Lerp(1f, p.fallingMultiplier, velDown);
             verticalForce = rb.mass * p.gravity * velDown;

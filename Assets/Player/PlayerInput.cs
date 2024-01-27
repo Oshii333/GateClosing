@@ -11,6 +11,7 @@ namespace GateClosing
         [SerializeField] InputActionProperty look;
         [SerializeField] InputActionProperty move;
         [SerializeField] InputActionProperty attack;
+        [SerializeField] InputActionProperty jump;
 
         [Header("Components")]
         [SerializeField] FloatingCapsule floatingCapsule;
@@ -29,6 +30,7 @@ namespace GateClosing
 
         [Header("Movement")]
         [SerializeField] Vector3 movementInput;
+        bool _jumping;
 
         [Header("Attacking")]
         [SerializeField] Collider hurtbox;
@@ -50,6 +52,7 @@ namespace GateClosing
             attack.action.Enable();
 
             attack.action.started += Attack;
+            jump.action.started += Jump;
 
             hurtbox.enabled = false;
         }
@@ -59,6 +62,14 @@ namespace GateClosing
             inputActions.Disable();
             look.action.Disable();
             move.action.Disable();
+        }
+
+        public void Jump(InputAction.CallbackContext context)
+        {
+            if (floatingCapsule.isGrounded)
+            {
+                _jumping = true;
+            }
         }
 
         public void Attack(InputAction.CallbackContext context)
@@ -93,6 +104,10 @@ namespace GateClosing
                     hurtbox.enabled = false;
                 }
             }
+
+
+            floatingCapsule.Jump(_jumping);
+            _jumping = false;
 
         }
 

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Ragdoll : MonoBehaviour
 {
-    [SerializeField] Animator animator;
-
     Collider[] colliders;
     Rigidbody[] rigidbodies;
     public float resetTime;
@@ -14,18 +12,22 @@ public class Ragdoll : MonoBehaviour
 
     bool hit = false;
 
+    public event Del Ragdolled;
+    public event Del RagdollReset;
+
     public void OnHit(Vector3 force)
     {
         if (hit) return;
         hit = true;
-        animator.enabled = false;
         ragdolling = true;
+        Ragdolled?.Invoke();
         resetTimer = 0;
         for (int i = 0; i < rigidbodies.Length; i++)
         {
             rigidbodies[i].velocity = Vector3.up * 2f;
             rigidbodies[i].AddForce(force, ForceMode.Impulse);
         }
+
 
     }
 
@@ -63,7 +65,7 @@ public class Ragdoll : MonoBehaviour
     public void ResetRagdoll()
     {
         ragdolling = false;
-        animator.enabled = true;
         hit = false;
+        RagdollReset?.Invoke();
     }
 }
