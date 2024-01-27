@@ -16,7 +16,10 @@ public class GuardNPC : MonoBehaviour
     [SerializeField] float getUpTimer;
     [SerializeField] float newTargetTime;
     [SerializeField] float newTargetTimer;
+    [SerializeField] AudioManager audioManager;
 
+    private AudioSource audioSource;
+    private bool guardActivated = false;
     bool _ragdolling;
     bool _navMeshActive;
 
@@ -26,6 +29,20 @@ public class GuardNPC : MonoBehaviour
         ragdoll.RagdollReset += OnRagdollReset;
         guardHurt.enabled = true;
         newTargetTimer = UnityEngine.Random.Range(0f, newTargetTime);
+        audioSource = gameObject.AddComponent<AudioSource>();
+        FindObjectOfType<Player>().HitSomeone += activateGuard;
+    }
+
+    void activateGuard()
+    {
+        if (!guardActivated)
+        {
+            audioSource.clip = audioManager.guardAgroSound;
+            audioSource.spatialize = true;
+            audioSource.spatialBlend = 1;
+            audioSource.Play();
+            guardActivated = true;
+        }
     }
 
     public void OnDisable()
@@ -114,13 +131,16 @@ public class GuardNPC : MonoBehaviour
                     {
                         guardHurt.enabled = true;
                     }
-                    Vector3 playerTarget = playerTransform.position;
-                    float  distance = Vector3.Distance(playerTransform.position, transform.position);
-                    if (distance < 1.5) 
+                    if (guardActivated)
                     {
-                        Attack();
+                        Vector3 playerTarget = playerTransform.position;
+                        float distance = Vector3.Distance(playerTransform.position, transform.position);
+                        if (distance < 1.5)
+                        {
+                            Attack();
+                        }
+                        navMeshAgent.SetDestination(playerTarget);
                     }
-                    navMeshAgent.SetDestination(playerTarget);
                 }
             }
         }

@@ -8,6 +8,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] public List<AudioList> audioList;
+    [SerializeField] public AudioClip guardAgroSound;
     [SerializeField] public List<AudioClip> tannoyClips;
     [System.Serializable]
     public class AudioList
