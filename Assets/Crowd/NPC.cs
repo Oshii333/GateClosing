@@ -8,6 +8,7 @@ public class NPC : MonoBehaviour
     [SerializeField] NavMeshAgent navMeshAgent;
     [SerializeField] Ragdoll ragdoll;
     [SerializeField] Animator animator;
+    [SerializeField] Transform hips;
 
     public void OnEnable()
     {
@@ -29,7 +30,23 @@ public class NPC : MonoBehaviour
 
     public void OnRagdollReset()
     {
+        transform.position = hips.position;
+        Vector3 lookDir = Vector3.ProjectOnPlane(hips.up, Vector3.up);
+        Quaternion lookRot = Quaternion.LookRotation(lookDir);
+        transform.rotation = lookRot;
+
         SetNavMeshAgent(active:true);
+
+        //if facing up get up back else get up front
+        if (Vector3.Dot(hips.forward, Vector3.up) > 0)
+        {
+            animator.SetTrigger("GetUpBack");
+        }
+        else
+        {
+            animator.SetTrigger("GetUpFront");
+        }
+
         SetAnimator(active:true);
     }
 
@@ -48,5 +65,4 @@ public class NPC : MonoBehaviour
     {
         animator.enabled = active;
     }
-
 }

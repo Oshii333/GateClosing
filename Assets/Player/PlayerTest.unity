@@ -892,6 +892,12 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.37521595, y: 0.41586295, z: 0.25216195}
   m_Center: {x: -0.000008404255, y: 0.14135955, z: -0.030857787}
+--- !u!4 &552940049 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5465940246521907071, guid: d9a46962b6196aa4d847ed38c0a7a6da,
+    type: 3}
+  m_PrefabInstance: {fileID: 1568172154}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &741874014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,7 +1436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbcaaa9bf5738d54ba03924a312e896a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resetTime: 6
+  resetTime: 3
   resetTimer: 0
   ragdolling: 0
 --- !u!195 &1052269201
@@ -1470,6 +1476,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 1052269201}
   ragdoll: {fileID: 1052269199}
   animator: {fileID: 1052269197}
+  hips: {fileID: 552940049}
 --- !u!1 &1069141446
 GameObject:
   m_ObjectHideFlags: 0
