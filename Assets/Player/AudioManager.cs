@@ -8,6 +8,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] public List<AudioList> audioList;
+    [SerializeField] public List<AudioClip> tannoyClips;
     [System.Serializable]
     public class AudioList
     {
@@ -18,6 +19,11 @@ public class AudioManager : MonoBehaviour
     public AudioClip GetAudio(int character, int calloutType, int index)
     {
         return audioList[character].calloutTypes[calloutType].clipList[index];
+    }
+
+    public AudioClip GetTannoy()
+    {
+        return tannoyClips[Random.Range(0, tannoyClips.Count - 1)];
     }
 }
 

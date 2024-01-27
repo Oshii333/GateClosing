@@ -41,6 +41,10 @@ namespace GateClosing
         [SerializeField] public bool attacking;
         [SerializeField] float attackTime;
         [SerializeField] float attackTimer;
+        [SerializeField] AudioManager audioManager;
+
+        private float tannoyTimer = Random.Range(2, 5);
+        private AudioSource audioSource;
 
         public event Del HitSomeone;
 
@@ -51,6 +55,7 @@ namespace GateClosing
 
         void Start()
         {
+            audioSource = gameObject.AddComponent<AudioSource>();
             ColliderManager.Player.Add(playerCollider, this);
             Cursor.lockState = CursorLockMode.Locked;
 
@@ -114,6 +119,18 @@ namespace GateClosing
                     attacking = false;
                     hurtbox.enabled = false;
                 }
+            }
+
+            if (tannoyTimer < 0)
+            {
+                tannoyTimer = Random.Range(10, 15);
+                audioSource.clip = audioManager.GetTannoy();
+                audioSource.transform.position = this.transform.position;
+                audioSource.Play();
+            }
+            else
+            {
+                tannoyTimer -= Time.deltaTime;
             }
 
 

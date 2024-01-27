@@ -18,10 +18,13 @@ public class NPC : MonoBehaviour
     [SerializeField] float newTargetRadius;
     [SerializeField] float panicTime;
     [SerializeField] float panicTimer;
+    [SerializeField] int character;
 
     [SerializeField] float walkSpeed;
     [SerializeField] float panicSpeed;
+    [SerializeField] AudioManager audioManager;
 
+    private AudioSource audioSource;
     bool _ragdolling;
     bool _navMeshActive;
     bool _panicking;
@@ -36,6 +39,10 @@ public class NPC : MonoBehaviour
         FindObjectOfType<Player>().HitSomeone += OnPlayerHitSomeone;
     }
 
+    public void Start()
+    {
+        audioSource = gameObject.AddComponent<AudioSource>();
+    }
 
     public void OnPlayerHitSomeone()
     {
@@ -59,6 +66,10 @@ public class NPC : MonoBehaviour
 
     public void OnRagdoll()
     {
+        audioSource.clip = audioManager.GetAudio(0, 0, Random.Range(0, 9));
+        audioSource.spatialize = true;
+        audioSource.spatialBlend = 1;
+        audioSource.Play();
         _ragdolling = true;
         _navMeshActive = false;
         SetNavMeshAgent(active:false);
@@ -122,6 +133,9 @@ public class NPC : MonoBehaviour
                 SetNavMeshAgent(active: true);
                 _navMeshActive = true;
             }
+        } else
+        {
+            audioSource.transform.position = this.transform.position;
         }
 
         if (_panicking)
