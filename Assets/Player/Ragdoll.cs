@@ -69,11 +69,14 @@ public class Ragdoll : MonoBehaviour
         RagdollReset?.Invoke();
     }
 
-    void OnCollisionEnter(Collision collision) 
+    void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.collider.gameObject.name);
         if (ColliderManager.Ragdolls.TryGetValue(collision.collider, out Ragdoll collidingRagdoll))
         {
-            if (collidingRagdoll.ragdolling == true) {
+            if (collidingRagdoll.gameObject == this.gameObject) return;
+            if (ragdolling)
+            {
                 collidingRagdoll.OnHit(collision.contacts[0].normal);
             }
         }

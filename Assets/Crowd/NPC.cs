@@ -10,10 +10,22 @@ public class NPC : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Transform hips;
 
+    [SerializeField] float getUpTime;
+    [SerializeField] float getUpTimer;
+    [SerializeField] float newTargetTime;
+    [SerializeField] float newTargetTimer;
+    [SerializeField] float newTargetRadius;
+
+    bool _ragdolling;
+    bool _navMeshActive;
+
+
     public void OnEnable()
     {
         ragdoll.Ragdolled += OnRagdoll;
         ragdoll.RagdollReset += OnRagdollReset;
+
+        newTargetTimer = UnityEngine.Random.Range(0f, newTargetTime);
     }
 
     public void OnDisable()
@@ -24,6 +36,8 @@ public class NPC : MonoBehaviour
 
     public void OnRagdoll()
     {
+        _ragdolling = true;
+        _navMeshActive = false;
         SetNavMeshAgent(active:false);
         SetAnimator(active:false);
     }
@@ -35,7 +49,8 @@ public class NPC : MonoBehaviour
         Quaternion lookRot = Quaternion.LookRotation(lookDir);
         transform.rotation = lookRot;
 
-        SetNavMeshAgent(active:true);
+        _ragdolling = false;
+        getUpTimer = getUpTime;
 
         //if facing up get up back else get up front
         if (Vector3.Dot(hips.forward, Vector3.up) > 0)
@@ -64,5 +79,39 @@ public class NPC : MonoBehaviour
     public void SetAnimator(bool active)
     {
         animator.enabled = active;
+    }
+
+    public void Update()
+    {
+        if (!_ragdolling)
+        {
+            if (getUpTimer > 0)
+            {
+                getUpTimer -= Time.deltaTime;
+            }
+            else if (!_navMeshActive)
+            {
+                SetNavMeshAgent(active: true);
+                _navMeshActive = true;
+            }
+        }
+
+        if (_navMeshActive)
+        {
+            if (newTargetTimer > 0)
+            {
+                newTargetTimer -= Time.deltaTime;
+            }
+            else
+            {
+                Vector3 target = transform.position + UnityEngine.Random.insideUnitSphere * newTargetRadius;
+                navMeshAgent.SetDestination(target);
+                newTargetTimer = newTargetTime;
+            }
+        }
+
+        
+        animator.SetBool("Walking", navMeshAgent.velocity != Vector3.zero);
+
     }
 }
