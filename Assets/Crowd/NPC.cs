@@ -44,7 +44,10 @@ public class NPC : MonoBehaviour
 
     public void OnRagdollReset()
     {
-        transform.position = hips.position;
+        NavMesh.SamplePosition(hips.position, out NavMeshHit navMeshHit, 10f, NavMesh.AllAreas);
+        transform.position = navMeshHit.position;
+
+
         Vector3 lookDir = Vector3.ProjectOnPlane(hips.up, Vector3.up);
         Quaternion lookRot = Quaternion.LookRotation(lookDir);
         transform.rotation = lookRot;

@@ -5,4 +5,9 @@ using UnityEngine;
 public class Enums : MonoBehaviour
 {
 
+    public event Del<CalloutType> Callout;
+
+
+
+
 }
