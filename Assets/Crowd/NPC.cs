@@ -23,6 +23,7 @@ public class NPC : MonoBehaviour
     [SerializeField] float walkSpeed;
     [SerializeField] float panicSpeed;
     [SerializeField] AudioManager audioManager;
+    [SerializeField] int NPCType = 0;
 
     private AudioSource audioSource;
     bool _ragdolling;
@@ -66,7 +67,7 @@ public class NPC : MonoBehaviour
 
     public void OnRagdoll()
     {
-        audioSource.clip = audioManager.GetAudio(0, 0, Random.Range(0, 9));
+        audioSource.clip = audioManager.GetAudio(NPCType, 0);
         audioSource.spatialize = true;
         audioSource.spatialBlend = 1;
         audioSource.Play();

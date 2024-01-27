@@ -16,9 +16,10 @@ public class AudioManager : MonoBehaviour
 
         public List<CalloutType> calloutTypes;
     }
-    public AudioClip GetAudio(int character, int calloutType, int index)
+    public AudioClip GetAudio(int character, int calloutType)
     {
-        return audioList[character].calloutTypes[calloutType].clipList[index];
+        List<AudioClip> filteredClips = audioList[character].calloutTypes[calloutType].clipList;
+        return filteredClips[Random.Range(0, filteredClips.Count - 1)];
     }
 
     public AudioClip GetTannoy()
