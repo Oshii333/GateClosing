@@ -25,6 +25,6 @@ MonoBehaviour:
   lateralSpeed: 10
   verticalSpeed: 10
   boostForce: 10
-  jumpForce: 10
-  fallingMultiplier: 2
+  jumpForce: 120
+  fallingMultiplier: 1
   gravity: 9.8
