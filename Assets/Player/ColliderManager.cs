@@ -6,5 +6,5 @@ using UnityEngine;
 public class ColliderManager : MonoBehaviour
 {
     public static Dictionary<Collider, Ragdoll> Ragdolls = new();
-    public static Dictionary<Collider, PlayerInput> Player = new();
+    public static Dictionary<Collider, Player> Player = new();
 }

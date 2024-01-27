@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using GateClosing;
 
 public class NPC : MonoBehaviour
 {
@@ -15,10 +16,15 @@ public class NPC : MonoBehaviour
     [SerializeField] float newTargetTime;
     [SerializeField] float newTargetTimer;
     [SerializeField] float newTargetRadius;
+    [SerializeField] float panicTime;
+    [SerializeField] float panicTimer;
+
+    [SerializeField] float walkSpeed;
+    [SerializeField] float panicSpeed;
 
     bool _ragdolling;
     bool _navMeshActive;
-
+    bool _panicking;
 
     public void OnEnable()
     {
@@ -26,12 +32,29 @@ public class NPC : MonoBehaviour
         ragdoll.RagdollReset += OnRagdollReset;
 
         newTargetTimer = UnityEngine.Random.Range(0f, newTargetTime);
+
+        FindObjectOfType<Player>().HitSomeone += OnPlayerHitSomeone;
+    }
+
+
+    public void OnPlayerHitSomeone()
+    {
+        if (Vector3.Distance(transform.position, Player.instance.transform.position) < 10f)
+        {
+            Vector3 dir = transform.position - Player.instance.transform.position;
+            Vector3 target = transform.position + UnityEngine.Random.insideUnitSphere * newTargetRadius + dir;
+            navMeshAgent.SetDestination(target);
+            newTargetTimer = newTargetTime;
+            panicTimer = panicTime;
+            _panicking = true;
+        }
     }
 
     public void OnDisable()
     {
         ragdoll.Ragdolled -= OnRagdoll;
         ragdoll.RagdollReset -= OnRagdollReset;
+        Player.instance.HitSomeone -= OnPlayerHitSomeone;
     }
 
     public void OnRagdoll()
@@ -86,6 +109,8 @@ public class NPC : MonoBehaviour
 
     public void Update()
     {
+
+
         if (!_ragdolling)
         {
             if (getUpTimer > 0)
@@ -99,11 +124,27 @@ public class NPC : MonoBehaviour
             }
         }
 
+        if (_panicking)
+        {
+            if (panicTimer > 0)
+            {
+                panicTimer -= Time.deltaTime;
+                navMeshAgent.speed = panicSpeed;
+            }
+            else
+            {
+                _panicking = false;
+                navMeshAgent.speed = walkSpeed;
+            }
+        }
+
+
         if (_navMeshActive)
         {
             if (newTargetTimer > 0)
             {
-                newTargetTimer -= Time.deltaTime;
+                float time = _panicking ? Time.deltaTime * 6 : Time.deltaTime;
+                newTargetTimer -= time;
             }
             else
             {
@@ -113,7 +154,7 @@ public class NPC : MonoBehaviour
             }
         }
 
-        
+        animator.SetBool("Panicking", _panicking);
         animator.SetBool("Walking", navMeshAgent.velocity != Vector3.zero);
 
     }

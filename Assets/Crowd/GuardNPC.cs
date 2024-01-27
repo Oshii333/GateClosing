@@ -11,8 +11,6 @@ public class GuardNPC : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Transform hips;
     [SerializeField] Collider guardHurt;
-    [SerializeField] PlayerInput player;
-    [SerializeField] Transform playerTransform;
 
     [SerializeField] float getUpTime;
     [SerializeField] float getUpTimer;
@@ -88,6 +86,7 @@ public class GuardNPC : MonoBehaviour
 
     public void Update()
     {
+        Transform playerTransform = Player.instance.transform;
         if (!_ragdolling)
         {
             if (getUpTimer > 0)
@@ -119,7 +118,7 @@ public class GuardNPC : MonoBehaviour
                     float  distance = Vector3.Distance(playerTransform.position, transform.position);
                     if (distance < 1.5) 
                     {
-                        attack();
+                        Attack();
                     }
                     navMeshAgent.SetDestination(playerTarget);
                 }
@@ -130,8 +129,10 @@ public class GuardNPC : MonoBehaviour
 
     }
 
-    void attack()
+    void Attack()
     {
-        player.floatingCapsule.rb.velocity = transform.forward * 100;
+        animator.SetTrigger("Attack");
+        Player.instance.floatingCapsule.rb.velocity = transform.forward * 100;
+
     }
 }

@@ -5,8 +5,10 @@ using UnityEngine.InputSystem;
 
 namespace GateClosing
 {
-    public class PlayerInput : MonoBehaviour
+    public class Player : MonoBehaviour
     {
+        public static Player instance;
+
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] InputActionProperty look;
         [SerializeField] InputActionProperty move;
@@ -39,6 +41,13 @@ namespace GateClosing
         [SerializeField] public bool attacking;
         [SerializeField] float attackTime;
         [SerializeField] float attackTimer;
+
+        public event Del HitSomeone;
+
+        private void Awake()
+        {
+            instance = this;
+        }
 
         void Start()
         {
@@ -120,6 +129,7 @@ namespace GateClosing
                 if (ColliderManager.Ragdolls.TryGetValue(other, out Ragdoll ragdoll))
                 {
                     ragdoll.OnHit(camera.transform.forward * attackStrength);
+                    HitSomeone?.Invoke();
                 }
             }
         }
