@@ -42,7 +42,7 @@ public class FloatingCapsule : MonoBehaviour
     public bool jumping;
     bool jumped;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
 
     public void Start()
     {

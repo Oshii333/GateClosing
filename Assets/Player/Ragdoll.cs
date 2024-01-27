@@ -71,7 +71,6 @@ public class Ragdoll : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.collider.gameObject.name);
         if (ColliderManager.Ragdolls.TryGetValue(collision.collider, out Ragdoll collidingRagdoll))
         {
             if (collidingRagdoll.gameObject == this.gameObject) return;

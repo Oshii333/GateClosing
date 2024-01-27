@@ -14,7 +14,7 @@ namespace GateClosing
         [SerializeField] InputActionProperty jump;
 
         [Header("Components")]
-        [SerializeField] FloatingCapsule floatingCapsule;
+        [SerializeField] public FloatingCapsule floatingCapsule;
         [SerializeField] Animator animator;
         [SerializeField] Camera camera;
 
@@ -33,14 +33,16 @@ namespace GateClosing
         bool _jumping;
 
         [Header("Attacking")]
+        [SerializeField] Collider playerCollider;
         [SerializeField] Collider hurtbox;
         [SerializeField] float attackStrength;
-        [SerializeField] bool attacking;
+        [SerializeField] public bool attacking;
         [SerializeField] float attackTime;
         [SerializeField] float attackTimer;
 
         void Start()
         {
+            ColliderManager.Player.Add(playerCollider, this);
             Cursor.lockState = CursorLockMode.Locked;
 
         }
@@ -108,15 +110,17 @@ namespace GateClosing
 
             floatingCapsule.Jump(_jumping);
             _jumping = false;
-
         }
 
 
         public void OnTriggerEnter(Collider other)
-        {
-            if (ColliderManager.Ragdolls.TryGetValue(other, out Ragdoll ragdoll))
+        {            
+            if (attacking)
             {
-                ragdoll.OnHit(camera.transform.forward * attackStrength);
+                if (ColliderManager.Ragdolls.TryGetValue(other, out Ragdoll ragdoll))
+                {
+                    ragdoll.OnHit(camera.transform.forward * attackStrength);
+                }
             }
         }
     }
