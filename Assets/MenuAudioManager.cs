@@ -5,23 +5,53 @@ using System;
 
 public class MenuAudioManager : MonoBehaviour
 {
-    public AudioSource AudioSource;
 
-    private float musicVolume = 1f;
+    public static MenuAudioManager Instance;
 
-    void Start()
+    public AudioSource MusicSource, SFXSource;
+    public Sound[] MusicSounds, SFXSounds;
+
+    private void Awake()
     {
-        AudioSource.Play();
-    }
-    void Update()
-    {
-        AudioSource.volume = musicVolume;
-    }
-
-    public void updateVolume(float volume)
-    {
-        musicVolume = volume;
-        PlayerPrefs.SetFloat("TrackVolume", volume);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
+    private void Start()
+    {
+        PlayMusic("DungeonTheme");
+
+    }
+
+    public void PlayMusic(string name)
+    {
+        Sound s = Array.Find(MusicSounds, x => x.name == name);
+
+        MusicSource.clip = s.clip;
+        MusicSource.Play();
+    }
+
+    public void PlaySFX(string name)
+    {
+        Sound s = Array.Find(SFXSounds, x => x.name == name);
+
+        SFXSource.PlayOneShot(s.clip);
+    }
+
+    public void MusicVolume(float volume)
+    {
+        MusicSource.volume = volume;
+    }
+
+    public void SFXVolume(float volume)
+    {
+        SFXSource.volume = volume;
+    }
 }

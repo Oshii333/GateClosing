@@ -35,6 +35,7 @@ public class FlightAnimation : MonoBehaviour
 
     void planeLift()
     {
+        MenuAudioManager.Instance.PlaySFX("Screaming");
         plane.velocity = new Vector3(-20, 20, -50);
     }
 }
