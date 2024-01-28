@@ -10,7 +10,7 @@ namespace GateClosing
         public static Player instance;
 
         [SerializeField] AudioListSO audioList;
-        [SerializeField] AudioSource audioSource;
+        public AudioSource audioSource;
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] InputActionProperty look;
         [SerializeField] InputActionProperty move;
@@ -99,6 +99,11 @@ namespace GateClosing
             attackTimer = attackTime;
         }
 
+        public void PlayHitAudio()
+        {
+            audioSource.PlayOneShot(audioList.hits[Random.Range(0, audioList.hits.Count)], 0.25f);
+        }
+
         void Update()
         {
             //turn += lookAction.action.ReadValue<Vector2>() * Time.smoothDeltaTime * sensitivity;
@@ -149,7 +154,7 @@ namespace GateClosing
                 if (ColliderManager.Ragdolls.TryGetValue(other, out Ragdoll ragdoll))
                 {
                     ragdoll.OnHit(camera.transform.forward * attackStrength);
-                    audioSource.PlayOneShot(audioList.hits[Random.Range(0, audioList.hits.Count)], 0.25f);
+                    PlayHitAudio();
                     HitSomeone?.Invoke();
                 }
             }

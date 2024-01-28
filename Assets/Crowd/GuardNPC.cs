@@ -153,6 +153,7 @@ public class GuardNPC : MonoBehaviour
     {
         animator.SetTrigger("Attack");
         Player.instance.floatingCapsule.rb.velocity = transform.forward * 100;
+        Player.instance.PlayHitAudio();
 
     }
 }
