@@ -131,6 +131,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4213729295150236802, guid: 610901e2ee52e5c40ab81d1c732f3031,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 463912790}
     - target: {fileID: 6989012092093422023, guid: 610901e2ee52e5c40ab81d1c732f3031,
         type: 3}
       propertyPath: m_Name
@@ -745,6 +750,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7419114217238746714, guid: ec0527747e988f24abd1b7ab4d985382,
     type: 3}
   m_PrefabInstance: {fileID: 423398217}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &463912790 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 970255779762433401, guid: 610901e2ee52e5c40ab81d1c732f3031,
+    type: 3}
+  m_PrefabInstance: {fileID: 3298116}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &597824855
 PrefabInstance:
