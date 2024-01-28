@@ -4546,7 +4546,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MusicSource: {fileID: 1402196293}
   SFXSource: {fileID: 1948640776}
-  MusicSounds: []
+  MusicSounds:
+  - name: Menu Music
+    clip: {fileID: 8300000, guid: 21c468ef93e11e640a49fad797fac874, type: 3}
+  - name: 160
+    clip: {fileID: 8300000, guid: c0c5f3f4529d9c54f9c24245f1e6268b, type: 3}
+  - name: 180
+    clip: {fileID: 8300000, guid: e766942cf20124f4d8bb0f748d919c41, type: 3}
+  - name: 200
+    clip: {fileID: 8300000, guid: 6eaecdf31549bdb4883ddc145f40bcdb, type: 3}
+  - name: 220
+    clip: {fileID: 8300000, guid: 0667392200d7f4141bfcffb790b994e9, type: 3}
+  - name: 240
+    clip: {fileID: 8300000, guid: 2afbdaa396256d244adc4f826eac2324, type: 3}
   SFXSounds:
   - name: Screaming
     clip: {fileID: 8300000, guid: bbaf359a08f036c4fb0f2fe6d0542590, type: 3}
@@ -6346,7 +6358,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -3922415649819422080, guid: a1adb0781b8ca964185db60902b96967,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: db30597f9b46e014c9fc9775f9a48793, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 21c468ef93e11e640a49fad797fac874, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -7300,7 +7312,19 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: LevelBlockout
+          m_StringArgument: Level
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1068833423}
+        m_TargetAssemblyTypeName: MenuAudioManager, Assembly-CSharp
+        m_MethodName: StopPlaying
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1604319777

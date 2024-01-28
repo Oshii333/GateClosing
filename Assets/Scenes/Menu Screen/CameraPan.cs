@@ -8,11 +8,15 @@ public class CameraPan : MonoBehaviour
 
     public Rigidbody camera;
     public float i;
+
+    public static string dataStore;
+
     // Start is called before the first frame update
     void Start()
     {
         camera = GetComponent<Rigidbody>();
         i = 0;
+        MenuAudioManager.Instance.PlayMusic("Menu Music");
     }
 
     // Update is called once per frame

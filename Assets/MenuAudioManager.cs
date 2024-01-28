@@ -24,12 +24,6 @@ public class MenuAudioManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        PlayMusic("DungeonTheme");
-
-    }
-
     public void PlayMusic(string name)
     {
         Sound s = Array.Find(MusicSounds, x => x.name == name);
@@ -53,5 +47,9 @@ public class MenuAudioManager : MonoBehaviour
     public void SFXVolume(float volume)
     {
         SFXSource.volume = volume;
+    }
+
+    public void StopPlaying() {
+        MusicSource.Stop();
     }
 }
