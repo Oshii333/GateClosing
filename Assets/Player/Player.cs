@@ -79,6 +79,8 @@ namespace GateClosing
             inputActions.Disable();
             look.action.Disable();
             move.action.Disable();
+            attack.action.started -= Attack;
+            jump.action.started -= Jump;
         }
 
         public void Jump(InputAction.CallbackContext context)
