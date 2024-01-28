@@ -18,13 +18,7 @@ public class AudioManager : MonoBehaviour
     private AudioSource mainTrackAudioSource;
 
 
-    [System.Serializable]
-    public class AudioList
-    {
-        public string name;
 
-        public List<CalloutType> calloutTypes;
-    }
     public AudioClip GetAudio(int character, int calloutType)
     {
         List<AudioClip> filteredClips = audioList[character].calloutTypes[calloutType].clipList;
@@ -64,6 +58,15 @@ public class AudioManager : MonoBehaviour
 
         }
     }
+}
+
+
+[System.Serializable]
+public class AudioList
+{
+    public string name;
+
+    public List<CalloutType> calloutTypes;
 }
 
 [System.Serializable]

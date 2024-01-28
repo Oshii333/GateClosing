@@ -8,8 +8,10 @@ public class NPC : MonoBehaviour
 {
     [SerializeField] NavMeshAgent navMeshAgent;
     [SerializeField] Ragdoll ragdoll;
-    [SerializeField] Animator animator;
-    [SerializeField] Transform hips;
+    [SerializeField] Character character;
+    Animator animator;
+    Transform hips;
+
 
     [SerializeField] float getUpTime;
     [SerializeField] float getUpTimer;
@@ -18,20 +20,22 @@ public class NPC : MonoBehaviour
     [SerializeField] float newTargetRadius;
     [SerializeField] float panicTime;
     [SerializeField] float panicTimer;
-    [SerializeField] int character;
 
     [SerializeField] float walkSpeed;
     [SerializeField] float panicSpeed;
     [SerializeField] AudioManager audioManager;
     [SerializeField] int NPCType = 0;
 
-    private AudioSource audioSource;
     bool _ragdolling;
     bool _navMeshActive;
     bool _panicking;
 
     public void OnEnable()
     {
+        character = GetComponentInChildren<Character>();
+        animator = character.animator;
+        hips = character.hips;
+
         ragdoll.Ragdolled += OnRagdoll;
         ragdoll.RagdollReset += OnRagdollReset;
 
@@ -40,18 +44,15 @@ public class NPC : MonoBehaviour
         FindObjectOfType<Player>().HitSomeone += OnPlayerHitSomeone;
     }
 
-    public void Start()
-    {
-        audioSource = gameObject.AddComponent<AudioSource>();
-    }
 
     public void OnPlayerHitSomeone()
     {
+        if (_ragdolling) return;
         if (Vector3.Distance(transform.position, Player.instance.transform.position) < 10f)
         {
             Vector3 dir = transform.position - Player.instance.transform.position;
-            Vector3 target = transform.position + UnityEngine.Random.insideUnitSphere * newTargetRadius + dir;
-            navMeshAgent.SetDestination(target);
+            Vector3 target = transform.position + UnityEngine.Random.insideUnitSphere * newTargetRadius;
+            if (navMeshAgent.enabled) navMeshAgent.SetDestination(target);
             newTargetTimer = newTargetTime;
             panicTimer = panicTime;
             _panicking = true;
@@ -67,10 +68,11 @@ public class NPC : MonoBehaviour
 
     public void OnRagdoll()
     {
-        audioSource.clip = audioManager.GetAudio(NPCType, 0);
-        audioSource.spatialize = true;
-        audioSource.spatialBlend = 1;
-        audioSource.Play();
+        //audioSource.clip = audioManager.GetAudio(NPCType, 0);
+        //audioSource.spatialize = true;
+        //audioSource.spatialBlend = 1;
+        //audioSource.Play();
+        character.PlayAudio();
         _ragdolling = true;
         _navMeshActive = false;
         SetNavMeshAgent(active:false);
@@ -134,10 +136,8 @@ public class NPC : MonoBehaviour
                 SetNavMeshAgent(active: true);
                 _navMeshActive = true;
             }
-        } else
-        {
-            audioSource.transform.position = this.transform.position;
         }
+
 
         if (_panicking)
         {
