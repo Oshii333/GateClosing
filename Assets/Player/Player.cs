@@ -124,10 +124,10 @@ namespace GateClosing
 
             if (tannoyTimer < 0)
             {
-                //tannoyTimer = Random.Range(10, 15);
-                //audioSource.clip = audioManager.GetTannoy();
-                //audioSource.transform.position = this.transform.position;
-                //audioSource.Play();
+                tannoyTimer = 36f;
+                audioSource.clip = audioManager.GetTannoy();
+                audioSource.transform.position = this.transform.position;
+                audioSource.Play();
             }
             else
             {
