@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 79188f0274f072344af282f0fb0c980c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.369
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 79188f0274f072344af282f0fb0c980c,
         type: 3}
@@ -1264,7 +1264,7 @@ MonoBehaviour:
   characterIndex: 4
   calloutType: 0
   playAudio: 0
-  randomColor: 0
+  randomColor: 1
 --- !u!82 &7242087425137656460
 AudioSource:
   m_ObjectHideFlags: 0

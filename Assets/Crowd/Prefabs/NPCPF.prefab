@@ -48,14 +48,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 7239748857600862697}
   ragdoll: {fileID: 7419676400246452143}
-  animator: {fileID: 0}
-  hips: {fileID: 0}
   character: {fileID: 0}
   getUpTime: 2
   getUpTimer: 0
   newTargetTime: 4
   newTargetTimer: 0
-  newTargetRadius: 0
+  newTargetRadius: 10
   panicTime: 6
   panicTimer: 0
   walkSpeed: 3

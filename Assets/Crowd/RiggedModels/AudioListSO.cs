@@ -6,4 +6,6 @@ using UnityEngine;
 public class AudioListSO : ScriptableObject
 {
     public List<AudioList> audioLists;
+
+    public List<AudioClip> hits;
 }

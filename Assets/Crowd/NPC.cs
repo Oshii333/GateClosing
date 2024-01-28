@@ -81,7 +81,7 @@ public class NPC : MonoBehaviour
 
     public void OnRagdollReset()
     {
-        NavMesh.SamplePosition(hips.position, out NavMeshHit navMeshHit, 10f, NavMesh.AllAreas);
+        NavMesh.SamplePosition(hips.position, out NavMeshHit navMeshHit, 10000f, NavMesh.AllAreas);
         transform.position = navMeshHit.position;
 
 

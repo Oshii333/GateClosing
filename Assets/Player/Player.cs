@@ -9,6 +9,8 @@ namespace GateClosing
     {
         public static Player instance;
 
+        [SerializeField] AudioListSO audioList;
+        [SerializeField] AudioSource audioSource;
         [SerializeField] InputActionAsset inputActions;
         [SerializeField] InputActionProperty look;
         [SerializeField] InputActionProperty move;
@@ -44,7 +46,6 @@ namespace GateClosing
         [SerializeField] AudioManager audioManager;
 
         private float tannoyTimer;
-        private AudioSource audioSource;
 
         public event Del HitSomeone;
 
@@ -56,7 +57,6 @@ namespace GateClosing
         void Start()
         {
             tannoyTimer = Random.Range(2, 5);
-            audioSource = gameObject.AddComponent<AudioSource>();
             ColliderManager.Player.Add(playerCollider, this);
             Cursor.lockState = CursorLockMode.Locked;
 
@@ -147,6 +147,7 @@ namespace GateClosing
                 if (ColliderManager.Ragdolls.TryGetValue(other, out Ragdoll ragdoll))
                 {
                     ragdoll.OnHit(camera.transform.forward * attackStrength);
+                    audioSource.PlayOneShot(audioList.hits[Random.Range(0, audioList.hits.Count)], 0.25f);
                     HitSomeone?.Invoke();
                 }
             }

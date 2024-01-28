@@ -1222,7 +1222,7 @@ MonoBehaviour:
   characterIndex: 0
   calloutType: 0
   playAudio: 0
-  randomColor: 0
+  randomColor: 1
 --- !u!82 &1299965681139150180
 AudioSource:
   m_ObjectHideFlags: 0

@@ -24,22 +24,26 @@ public class Character : MonoBehaviour
     {
         audioSource.spatialize = true;
         audioSource.spatialBlend = 1;
-    }
-
-    public void Update()
-    {
-        if (playAudio)
-        {
-            PlayAudio();
-            playAudio = false;
-        }
-
         if (randomColor)
         {
             SetMaterial();
-            randomColor = false;
         }
     }
+
+    //public void Update()
+    //{
+    //    if (playAudio)
+    //    {
+    //        PlayAudio();
+    //        playAudio = false;
+    //    }
+
+    //    if (randomColor)
+    //    {
+    //        SetMaterial();
+    //        randomColor = false;
+    //    }
+    //}
 
 
     public void PlayAudio()
