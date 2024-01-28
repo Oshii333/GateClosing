@@ -23,7 +23,7 @@ public class Character : MonoBehaviour
     public void OnEnable()
     {
         audioSource.spatialize = true;
-        audioSource.spatialBlend = 1;
+        audioSource.spatialBlend = 0.5f;
         if (randomColor)
         {
             SetMaterial();
